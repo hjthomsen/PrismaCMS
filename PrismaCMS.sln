@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismaCMS.API", "PrismaCMS.API\PrismaCMS.API.csproj", "{98504878-E723-4F14-AA01-8E184719049E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismaCMS.Domain", "PrismaCMS.Domain\PrismaCMS.Domain.csproj", "{A233EF8F-FD3D-4BE3-881F-F752A8642193}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismaCMS.Infrastructure", "PrismaCMS.Infrastructure\PrismaCMS.Infrastructure.csproj", "{4720EC23-36EC-43A0-900C-563CAF1DC296}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismaCMS.Application", "PrismaCMS.Application\PrismaCMS.Application.csproj", "{315DE7AB-C63E-454C-B7E4-063D00A9A668}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98504878-E723-4F14-AA01-8E184719049E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98504878-E723-4F14-AA01-8E184719049E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98504878-E723-4F14-AA01-8E184719049E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98504878-E723-4F14-AA01-8E184719049E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A233EF8F-FD3D-4BE3-881F-F752A8642193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A233EF8F-FD3D-4BE3-881F-F752A8642193}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A233EF8F-FD3D-4BE3-881F-F752A8642193}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A233EF8F-FD3D-4BE3-881F-F752A8642193}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4720EC23-36EC-43A0-900C-563CAF1DC296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4720EC23-36EC-43A0-900C-563CAF1DC296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4720EC23-36EC-43A0-900C-563CAF1DC296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4720EC23-36EC-43A0-900C-563CAF1DC296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{315DE7AB-C63E-454C-B7E4-063D00A9A668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{315DE7AB-C63E-454C-B7E4-063D00A9A668}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{315DE7AB-C63E-454C-B7E4-063D00A9A668}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{315DE7AB-C63E-454C-B7E4-063D00A9A668}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
