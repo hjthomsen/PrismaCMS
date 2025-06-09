@@ -12,15 +12,18 @@ namespace PrismaCMS.API.Controllers
     {
         private readonly IRepository<FinancialStatement> _financialStatementRepository;
         private readonly IRepository<Customer> _customerRepository;
+        private readonly IRepository<Assignment> _assignmentRepository;
         private readonly IMapper _mapper;
 
         public FinancialStatementsController(
             IRepository<FinancialStatement> financialStatementRepository,
             IRepository<Customer> customerRepository,
+            IRepository<Assignment> assignmentRepository,
             IMapper mapper)
         {
             _financialStatementRepository = financialStatementRepository;
             _customerRepository = customerRepository;
+            _assignmentRepository = assignmentRepository;
             _mapper = mapper;
         }
 
@@ -40,6 +43,19 @@ namespace PrismaCMS.API.Controllers
                 return NotFound();
 
             return Ok(_mapper.Map<FinancialStatementDto>(financialStatement));
+        }
+
+        [HttpGet("{id}/assignments")]
+        public async Task<ActionResult<IEnumerable<AssignmentDto>>> GetFinancialStatementAssignments(int id)
+        {
+            var financialStatement = await _financialStatementRepository.GetByIdAsync(id);
+            if (financialStatement == null)
+                return NotFound("Financial statement not found");
+
+            var assignments = await _assignmentRepository.GetAllAsync();
+            var financialStatementAssignments = assignments.Where(a => a.FinancialStatementId == id);
+
+            return Ok(_mapper.Map<IEnumerable<AssignmentDto>>(financialStatementAssignments));
         }
 
         [HttpPost]

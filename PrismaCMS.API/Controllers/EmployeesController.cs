@@ -11,11 +11,16 @@ namespace PrismaCMS.API.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly IRepository<Employee> _employeeRepository;
+        private readonly IRepository<Assignment> _assignmentRepository;
         private readonly IMapper _mapper;
 
-        public EmployeesController(IRepository<Employee> employeeRepository, IMapper mapper)
+        public EmployeesController(
+            IRepository<Employee> employeeRepository,
+            IRepository<Assignment> assignmentRepository,
+            IMapper mapper)
         {
             _employeeRepository = employeeRepository;
+            _assignmentRepository = assignmentRepository;
             _mapper = mapper;
         }
 
@@ -35,6 +40,19 @@ namespace PrismaCMS.API.Controllers
                 return NotFound();
 
             return Ok(_mapper.Map<EmployeeDto>(employee));
+        }
+
+        [HttpGet("{id}/assignments")]
+        public async Task<ActionResult<IEnumerable<AssignmentDto>>> GetEmployeeAssignments(int id)
+        {
+            var employee = await _employeeRepository.GetByIdAsync(id);
+            if (employee == null)
+                return NotFound("Employee not found");
+
+            var assignments = await _assignmentRepository.GetAllAsync();
+            var employeeAssignments = assignments.Where(a => a.EmployeeId == id);
+
+            return Ok(_mapper.Map<IEnumerable<AssignmentDto>>(employeeAssignments));
         }
 
         [HttpPost]
@@ -59,7 +77,7 @@ namespace PrismaCMS.API.Controllers
             if (employee == null)
                 return NotFound();
 
-            // Update the employee through domain methods
+            // Update through domain methods
             employee.UpdateRole(dto.Role);
 
             await _employeeRepository.UpdateAsync(employee);

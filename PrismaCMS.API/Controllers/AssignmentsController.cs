@@ -13,17 +13,20 @@ namespace PrismaCMS.API.Controllers
         private readonly IRepository<Assignment> _assignmentRepository;
         private readonly IRepository<FinancialStatement> _financialStatementRepository;
         private readonly IRepository<Employee> _employeeRepository;
+        private readonly IRepository<TimeEntry> _timeEntryRepository;
         private readonly IMapper _mapper;
 
         public AssignmentsController(
             IRepository<Assignment> assignmentRepository,
             IRepository<FinancialStatement> financialStatementRepository,
             IRepository<Employee> employeeRepository,
+            IRepository<TimeEntry> timeEntryRepository,
             IMapper mapper)
         {
             _assignmentRepository = assignmentRepository;
             _financialStatementRepository = financialStatementRepository;
             _employeeRepository = employeeRepository;
+            _timeEntryRepository = timeEntryRepository;
             _mapper = mapper;
         }
 
@@ -43,6 +46,19 @@ namespace PrismaCMS.API.Controllers
                 return NotFound();
 
             return Ok(_mapper.Map<AssignmentDto>(assignment));
+        }
+
+        [HttpGet("{id}/timeentries")]
+        public async Task<ActionResult<IEnumerable<TimeEntryDto>>> GetAssignmentTimeEntries(int id)
+        {
+            var assignment = await _assignmentRepository.GetByIdAsync(id);
+            if (assignment == null)
+                return NotFound("Assignment not found");
+
+            var timeEntries = await _timeEntryRepository.GetAllAsync();
+            var assignmentTimeEntries = timeEntries.Where(te => te.AssignmentId == id);
+
+            return Ok(_mapper.Map<IEnumerable<TimeEntryDto>>(assignmentTimeEntries));
         }
 
         [HttpPost]
