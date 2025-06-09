@@ -25,7 +25,6 @@ namespace PrismaCMS.Infrastructure
 
             // Register repositories
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IRepository<Customer>, CustomerRepository>();
 
             return services;
         }

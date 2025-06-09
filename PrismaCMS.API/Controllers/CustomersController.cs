@@ -1,8 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PrismaCMS.API.DTOs;
+using PrismaCMS.Application.Common.DTOs;
 using PrismaCMS.Application.Common.Interfaces;
-using PrismaCMS.Application.Common.Mappings;
 using PrismaCMS.Domain.Entities;
 using PrismaCMS.Domain.ValueObjects;
 

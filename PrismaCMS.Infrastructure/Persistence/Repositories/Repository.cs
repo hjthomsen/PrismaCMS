@@ -37,13 +37,6 @@ namespace PrismaCMS.Infrastructure.Persistence.Repositories
             return entity;
         }
 
-        public virtual async Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
-        {
-            await _dbSet.AddRangeAsync(entities, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-            return entities;
-        }
-
         public virtual async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {
             _context.Entry(entity).State = EntityState.Modified;
@@ -53,12 +46,6 @@ namespace PrismaCMS.Infrastructure.Persistence.Repositories
         public virtual async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
         {
             _dbSet.Remove(entity);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-
-        public virtual async Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
-        {
-            _dbSet.RemoveRange(entities);
             await _context.SaveChangesAsync(cancellationToken);
         }
     }
