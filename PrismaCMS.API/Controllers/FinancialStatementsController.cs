@@ -13,17 +13,20 @@ namespace PrismaCMS.API.Controllers
         private readonly IRepository<FinancialStatement> _financialStatementRepository;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Assignment> _assignmentRepository;
+        private readonly IRepository<TimeEntry> _timeEntryRepository;
         private readonly IMapper _mapper;
 
         public FinancialStatementsController(
             IRepository<FinancialStatement> financialStatementRepository,
             IRepository<Customer> customerRepository,
             IRepository<Assignment> assignmentRepository,
+            IRepository<TimeEntry> timeEntryRepository,
             IMapper mapper)
         {
             _financialStatementRepository = financialStatementRepository;
             _customerRepository = customerRepository;
             _assignmentRepository = assignmentRepository;
+            _timeEntryRepository = timeEntryRepository;
             _mapper = mapper;
         }
 
@@ -56,6 +59,25 @@ namespace PrismaCMS.API.Controllers
             var financialStatementAssignments = assignments.Where(a => a.FinancialStatementId == id);
 
             return Ok(_mapper.Map<IEnumerable<AssignmentDto>>(financialStatementAssignments));
+        }
+
+        [HttpGet("{id}/timeentries")]
+        public async Task<ActionResult<IEnumerable<TimeEntryDto>>> GetFinancialStatementTimeEntries(int id)
+        {
+            var financialStatement = await _financialStatementRepository.GetByIdAsync(id);
+            if (financialStatement == null)
+                return NotFound("Financial statement not found");
+
+            // Get all assignments for this financial statement
+            var assignments = await _assignmentRepository.GetAllAsync();
+            var financialStatementAssignments = assignments.Where(a => a.FinancialStatementId == id);
+            var assignmentIds = financialStatementAssignments.Select(a => a.Id).ToList();
+
+            // Get all time entries for these assignments
+            var timeEntries = await _timeEntryRepository.GetAllAsync();
+            var financialStatementTimeEntries = timeEntries.Where(te => assignmentIds.Contains(te.AssignmentId));
+
+            return Ok(_mapper.Map<IEnumerable<TimeEntryDto>>(financialStatementTimeEntries));
         }
 
         [HttpPost]

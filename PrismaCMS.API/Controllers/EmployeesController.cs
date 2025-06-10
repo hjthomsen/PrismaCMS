@@ -12,15 +12,18 @@ namespace PrismaCMS.API.Controllers
     {
         private readonly IRepository<Employee> _employeeRepository;
         private readonly IRepository<Assignment> _assignmentRepository;
+        private readonly IRepository<TimeEntry> _timeEntryRepository;
         private readonly IMapper _mapper;
 
         public EmployeesController(
             IRepository<Employee> employeeRepository,
             IRepository<Assignment> assignmentRepository,
+            IRepository<TimeEntry> timeEntryRepository,
             IMapper mapper)
         {
             _employeeRepository = employeeRepository;
             _assignmentRepository = assignmentRepository;
+            _timeEntryRepository = timeEntryRepository;
             _mapper = mapper;
         }
 
@@ -53,6 +56,25 @@ namespace PrismaCMS.API.Controllers
             var employeeAssignments = assignments.Where(a => a.EmployeeId == id);
 
             return Ok(_mapper.Map<IEnumerable<AssignmentDto>>(employeeAssignments));
+        }
+
+        [HttpGet("{id}/timeentries")]
+        public async Task<ActionResult<IEnumerable<TimeEntryDto>>> GetEmployeeTimeEntries(int id)
+        {
+            var employee = await _employeeRepository.GetByIdAsync(id);
+            if (employee == null)
+                return NotFound("Employee not found");
+
+            // Get all assignments for this employee
+            var assignments = await _assignmentRepository.GetAllAsync();
+            var employeeAssignments = assignments.Where(a => a.EmployeeId == id);
+            var assignmentIds = employeeAssignments.Select(a => a.Id).ToList();
+
+            // Get all time entries for these assignments
+            var timeEntries = await _timeEntryRepository.GetAllAsync();
+            var employeeTimeEntries = timeEntries.Where(te => assignmentIds.Contains(te.AssignmentId));
+
+            return Ok(_mapper.Map<IEnumerable<TimeEntryDto>>(employeeTimeEntries));
         }
 
         [HttpPost]
