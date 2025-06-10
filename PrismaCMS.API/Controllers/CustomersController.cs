@@ -87,17 +87,18 @@ namespace PrismaCMS.API.Controllers
             if (customer == null)
                 return NotFound();
 
-            var contactInfo = new ContactInfo(
-                dto.Email,
-                dto.Phone,
-                dto.Address,
-                dto.City,
-                dto.PostalCode,
-                dto.Country
-            );
+            // Update name if provided
+            if (!string.IsNullOrWhiteSpace(dto.Name))
+            {
+                customer.UpdateName(dto.Name);
+            }
 
-            // Update the customer through domain methods
-            customer.UpdateContactInfo(contactInfo);
+            // Update contact info if provided
+            if (dto.ContactInfo != null)
+            {
+                var contactInfo = _mapper.Map<ContactInfo>(dto.ContactInfo);
+                customer.UpdateContactInfo(contactInfo);
+            }
 
             await _customerRepository.UpdateAsync(customer);
 

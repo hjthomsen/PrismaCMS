@@ -12,12 +12,8 @@ namespace PrismaCMS.Application.Common.DTOs
     );
 
     public record CustomerUpdateDto(
-        string? Email,
-        string? Phone,
-        string? Address,
-        string? City,
-        string? PostalCode,
-        string? Country
+        string? Name,
+        ContactInfoDto? ContactInfo
     );
 
     public class CustomerDto

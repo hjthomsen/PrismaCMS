@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using PrismaCMS.Domain.Common;
 using PrismaCMS.Domain.ValueObjects;
-using PrismaCMS.Domain.Entities;
 
 namespace PrismaCMS.Domain.Entities
 {
@@ -21,6 +19,11 @@ namespace PrismaCMS.Domain.Entities
             Name = name;
             OrgNumber = orgNumber;
             ContactInfo = contactInfo;
+        }
+
+        public void UpdateName(string name)
+        {
+            Name = name;
         }
 
         public void UpdateContactInfo(ContactInfo contactInfo)
